@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  alphavillestore-mysql:
+    image: mysql:8.0-debian
+    restart: always
+    container_name: alphaville-store-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: alphaville_store
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+      - alphaville-store-mysql-data:/var/lib/mysql
+
+  alphavillestore-redis:
+    image: redis:latest
+    container_name: alphaville-store-redis-container
+    ports:
+      - "6379:6379"
+    volumes:
+      - alphaville-store-redis-data:/data
+
+volumes:
+  alphaville-store-redis-data:
+  alphaville-store-mysql-data:
